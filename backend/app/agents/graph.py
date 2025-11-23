@@ -1,4 +1,9 @@
-"""LangGraph workflow for multi-agent system."""
+"""LangGraph workflow for multi-agent system.
+
+This workflow is automatically traced by LangSmith when enabled.
+Each agent execution, state transition, and LLM call will be visible
+in the LangSmith dashboard for debugging and monitoring.
+"""
 from typing import Dict, Any, TypedDict, Optional, List
 from langgraph.graph import StateGraph, END
 from app.models.schemas import QueryType

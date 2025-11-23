@@ -20,7 +20,14 @@ try:
     print(f"   API Key: {'✅ Set' if settings.api_key else '❌ Missing'}")
     print(f"   Qdrant URL: {'✅ Set' if settings.QDRANT_URL else '❌ Missing'}")
     print(f"   Qdrant API Key: {'✅ Set' if settings.QDRANT_API_KEY else '❌ Missing'}")
-    print(f"   LangSmith: {'✅ Enabled' if settings.LANGCHAIN_API_KEY else '⚠️  Optional'}")
+    
+    # LangSmith status
+    if settings.LANGCHAIN_API_KEY:
+        print(f"   LangSmith: ✅ Enabled")
+        print(f"      Project: {settings.LANGCHAIN_PROJECT}")
+        print(f"      Tracing: {settings.LANGCHAIN_TRACING_V2}")
+    else:
+        print(f"   LangSmith: ⚠️  Disabled (optional - for tracing/monitoring)")
     
     # Check critical settings
     if not settings.api_key:

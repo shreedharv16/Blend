@@ -25,8 +25,8 @@ class Settings(BaseSettings):
     QDRANT_API_KEY: str
     QDRANT_COLLECTION: str = "retail_insights"
     
-    # LangSmith
-    LANGCHAIN_TRACING_V2: bool = True
+    # LangSmith - Tracing and monitoring
+    LANGCHAIN_TRACING_V2: str = "true"  # Must be string "true" for LangSmith
     LANGCHAIN_ENDPOINT: str = "https://api.smith.langchain.com"
     LANGCHAIN_API_KEY: Optional[str] = None
     LANGCHAIN_PROJECT: str = "retail-insights-assistant"

@@ -1,4 +1,8 @@
-"""LLM service for Gemini integration."""
+"""LLM service for Gemini integration.
+
+All LLM calls are automatically traced by LangSmith when enabled.
+See LANGSMITH_SETUP.md for configuration details.
+"""
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import HumanMessage, SystemMessage
 from typing import Optional, Dict, Any

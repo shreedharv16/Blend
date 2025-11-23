@@ -2,6 +2,7 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+import os
 from app.api.routes import upload, chat, dashboard
 from app.api.websockets.chat_ws import handle_websocket
 from app.services.data_service import data_service
@@ -10,6 +11,21 @@ from app.utils.logger import setup_logger
 from app.config import settings
 
 logger = setup_logger(__name__)
+
+# Initialize LangSmith tracing
+def setup_langsmith():
+    """Configure LangSmith tracing for LangChain/LangGraph."""
+    if settings.LANGCHAIN_API_KEY:
+        os.environ["LANGCHAIN_TRACING_V2"] = settings.LANGCHAIN_TRACING_V2
+        os.environ["LANGCHAIN_ENDPOINT"] = settings.LANGCHAIN_ENDPOINT
+        os.environ["LANGCHAIN_API_KEY"] = settings.LANGCHAIN_API_KEY
+        os.environ["LANGCHAIN_PROJECT"] = settings.LANGCHAIN_PROJECT
+        logger.info(f"✓ LangSmith tracing enabled for project: {settings.LANGCHAIN_PROJECT}")
+    else:
+        logger.warning("LangSmith API key not found - tracing disabled")
+
+# Set up LangSmith before creating the app
+setup_langsmith()
 
 
 @asynccontextmanager
@@ -62,7 +78,9 @@ async def health_check():
     return {
         "status": "healthy",
         "environment": settings.ENVIRONMENT,
-        "model": settings.GEMINI_MODEL
+        "model": settings.GEMINI_MODEL,
+        "langsmith_enabled": bool(settings.LANGCHAIN_API_KEY),
+        "langsmith_project": settings.LANGCHAIN_PROJECT if settings.LANGCHAIN_API_KEY else None
     }
 
 

@@ -1,0 +1,2 @@
+"""Retail Insights Assistant Backend."""
+
